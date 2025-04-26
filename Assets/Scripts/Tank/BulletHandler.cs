@@ -8,15 +8,9 @@ public class BulletHandler : MonoBehaviour
     [SerializeField] float launchSpeed = 75f;
     [SerializeField] GameObject bulletPrefab;
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        if(Input.GetAxis("Fire1") == 1)
+        if(Input.GetMouseButtonDown(0))
         {
             SpawnBullet();
         }

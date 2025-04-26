@@ -1,12 +1,13 @@
+using Cinemachine;
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Windows;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent (typeof(PlayerInput))]
-public class TankController : MonoBehaviour
+public class TankController : NetworkBehaviour
 {
+    [Header("Tank Properties")]
     public float tankSpeed = 15f;
     public float tankRotationSpeed = 20f;
     public float turretLagSpeed = 0.5f;
@@ -22,81 +23,93 @@ public class TankController : MonoBehaviour
     public float wheelRotationSpeed = 200.0f;
 
     private Rigidbody rigidBody;
-    private PlayerInput playerInput;
 
-    // Start is called before the first frame update
-    void Start()
+    public override void Spawned()
     {
-        rigidBody = GetComponent<Rigidbody>();
-        playerInput = GetComponent<PlayerInput>();
+        if (Object.HasInputAuthority)
+        {
+            GameObject virtualCamera = GameObject.Find("Virtual Camera");
+            if (virtualCamera != null)
+            {
+                virtualCamera.GetComponent<CinemachineVirtualCamera>().Follow = transform;
+            }
+        }
+        rigidBody = GetComponent<Rigidbody>();     
 
         // Adjust center of mass to improve stability and prevent rolling
         Vector3 centerOfMass = rigidBody.centerOfMass;
         centerOfMass.y += centreOfGravityOffset;
         rigidBody.centerOfMass = centerOfMass;
     }
-    private void Update()
-    {
-        HandleWheelRotation();
-    }
 
-    // FixedUpdate is called at a fixed time interval 
-    void FixedUpdate()
+    public override void FixedUpdateNetwork()
     {
-        if(rigidBody & playerInput)
+        if (GetInput<NetworkInputData>(out var input))
         {
-            HandleMovement();
-            HandleTurret();
-            //HandleReticle();
-        }     
+            if(HasInputAuthority)
+            {
+                HandleMovement(input);
+                HandleWheelRotation(input);
+                HandleTurret(input);
+                //HandleReticle(input);
+            }
+        }
     }
 
-    void HandleMovement()
+    void HandleMovement(NetworkInputData input)
     {
-        //move tank forward
-        Vector3 wantedPosition = rigidBody.position + ( transform.forward * playerInput.ForwardInput * tankSpeed * Time.fixedDeltaTime);
-        rigidBody.MovePosition(wantedPosition);
+        ////move tank forward
+        //Vector3 wantedPosition = rigidBody.position + ( transform.forward * input.forward * tankSpeed * Runner.DeltaTime);
+        //rigidBody.MovePosition(wantedPosition);
 
-        // tank rotation
-        Quaternion wantedRotation = rigidBody.rotation * Quaternion.Euler(Vector3.up * (tankRotationSpeed * playerInput.RotationInput * Time.fixedDeltaTime));
-        rigidBody.MoveRotation(wantedRotation);
+        //// tank rotation
+        //Quaternion wantedRotation = rigidBody.rotation * Quaternion.Euler(Vector3.up * (tankRotationSpeed * input.rotation * Runner.DeltaTime));
+        //rigidBody.MoveRotation(wantedRotation);
+
+        // Move the tank
+        Vector3 forwardMovement = transform.forward * input.forward * tankSpeed * Runner.DeltaTime;
+        transform.position += forwardMovement;
+
+        // Rotate the tank
+        transform.Rotate(Vector3.up, input.rotation * tankRotationSpeed * Runner.DeltaTime);
+
     }
 
-    void HandleWheelRotation()
+    void HandleWheelRotation(NetworkInputData input)
     {
-        float wheelRotation = playerInput.ForwardInput * wheelRotationSpeed * Time.deltaTime;
+        float wheelRotation = input.forward * wheelRotationSpeed * Runner.DeltaTime;
         foreach (GameObject wheel in leftWheels)
         {
             if (wheel != null)
             {
-                wheel.transform.Rotate(wheelRotation * playerInput.RotationInput * wheelRotationSpeed * Time.deltaTime, 0, 0);
+                wheel.transform.Rotate(wheelRotation * input.rotation * wheelRotationSpeed * Runner.DeltaTime, 0, 0);
             }
         }
         foreach (GameObject wheel in rightWheels)
         {
             if (wheel != null)
             {
-                wheel.transform.Rotate(wheelRotation + playerInput.RotationInput * wheelRotationSpeed * Time.deltaTime, 0, 0);
+                wheel.transform.Rotate(wheelRotation + input.rotation * wheelRotationSpeed * Runner.DeltaTime, 0, 0);
             }
         }
     }
 
-    void HandleTurret()
+    void HandleTurret(NetworkInputData input)
     {
         if(turretTransform)
         {
-            Vector3 turretLookDir = playerInput.ReticlePosition - turretTransform.position;
+            Vector3 turretLookDir = input.reticlePosition - turretTransform.position;
             turretLookDir.y = 0;
-            finalTurretLookDir = Vector3.Lerp(finalTurretLookDir, turretLookDir, Time.deltaTime * turretLagSpeed);
+            finalTurretLookDir = Vector3.Lerp(finalTurretLookDir, turretLookDir, Runner.DeltaTime * turretLagSpeed);
             turretTransform.rotation = Quaternion.LookRotation(finalTurretLookDir);
         }
     }
 
-    void HandleReticle()
+    void HandleReticle(NetworkInputData input)
     {
         if(reticleTransform)
         {
-            reticleTransform.position = playerInput.ReticlePosition;
+            reticleTransform.position = input.reticlePosition;
         }
     }
 }
