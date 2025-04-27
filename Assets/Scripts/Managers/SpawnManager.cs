@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class SpawnManager : NetworkBehaviour
 {
-    [SerializeField] NetworkPrefabRef playerPrefab;
     [SerializeField] NetworkPrefabRef coinPrefab;
     [SerializeField] float spawnRange = 60f;
     [SerializeField] float spawnPosY = 0.5f;
@@ -27,12 +26,5 @@ public class SpawnManager : NetworkBehaviour
 
         Runner.Spawn(coinPrefab, spawnPos);
         //Instantiate(coinPrefab, spawnPos, coinPrefab.transform.rotation);
-    }
-
-    void SpawnPlayer()
-    {
-        Vector3 spawnPosition = new Vector3(Random.Range(0,5), 1, 0);
-        NetworkObject networkPlayerObject = Runner.Spawn(playerPrefab, spawnPosition, Quaternion.identity);
-        networkPlayerObject.name = Runner.IsServer ? "Player" : "Enemy";
     }
 }

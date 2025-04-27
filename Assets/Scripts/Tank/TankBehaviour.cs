@@ -3,17 +3,25 @@ using UnityEngine;
 
 public class TankBehaviour : NetworkBehaviour
 {
-    [Networked, OnChangedRender(nameof(OnHealthChanged))]
-    public int HP {  get; set; }
+    #region Managers
     UIManager uiManager;
+    GameManager gameManager;
+    #endregion
+
+    #region Variables
+    [Networked, OnChangedRender(nameof(OnHealthChanged))]
+    public int HP { get; set; }
     public int Points = 0;
     int pointsToGetHealth = 30;
     int maxHealth = 100;
     [SerializeField] HealthBar healthBar;
-    
+    #endregion
+
     public override void Spawned()
     {
         uiManager = UIManager.instance;
+        gameManager = GameManager.Instance;
+
         HP = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
     }
@@ -32,8 +40,6 @@ public class TankBehaviour : NetworkBehaviour
     void TakeDamage(int damage)
     {
         HP -= damage;
-
-        //healthBar.SetHealth(currentHealth);
     }
 
     public void AddScore(int score)
@@ -49,14 +55,21 @@ public class TankBehaviour : NetworkBehaviour
             Points -= pointsToGetHealth;
             uiManager.UpdateCoinText(Points);
             HP += health;
-            //healthBar.SetHealth(currentHealth);
         }
     }
 
     private void OnHealthChanged()
     {
         healthBar.SetHealth(HP);
-        Debug.Log("HealthChanged");
+        if (HP == 0)
+        {
+            gameManager.RemovePlayer(Object);
+            Runner.Despawn(Object);
+            if(HasInputAuthority)
+            {
+                uiManager.LoseScreen();
+            }
+        }
     }
     private void OnCollisionEnter(Collision collision)
     {

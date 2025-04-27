@@ -373,9 +373,10 @@ GameObject:
   - component: {fileID: 7070139266790392322}
   - component: {fileID: 2552448456434833642}
   - component: {fileID: 3382117056872209785}
-  - component: {fileID: 7329761434373075117}
   - component: {fileID: 8022675250606375923}
   - component: {fileID: 2072852620707987918}
+  - component: {fileID: 8868525025112433661}
+  - component: {fileID: 8125261249810932452}
   m_Layer: 0
   m_Name: Tank_Red
   m_TagString: Player
@@ -515,21 +516,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88b35e1fa0cfd2547b8154c1e3e5cffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 0
+  _HP: 0
+  Points: 0
   healthBar: {fileID: 947567377859163312}
---- !u!114 &7329761434373075117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2951015505208748746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3763b1b880b9db940b018b67bba8fef0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Camera: {fileID: 0}
 --- !u!114 &8022675250606375923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,6 +552,44 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.9107852, y: 1.8118516, z: 2.4704561}
   m_Center: {x: 0.00000035762787, y: 0.12834066, z: -0.1215477}
+--- !u!114 &8868525025112433661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2951015505208748746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
+--- !u!114 &8125261249810932452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2951015505208748746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2919786699
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 2552448456434833642}
+  - {fileID: 3382117056872209785}
+  - {fileID: 8868525025112433661}
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &4541462443041506571
 GameObject:
   m_ObjectHideFlags: 0

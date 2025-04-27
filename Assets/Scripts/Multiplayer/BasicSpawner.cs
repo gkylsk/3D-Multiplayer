@@ -36,6 +36,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             GameMode = mode,
             SessionName = roomCode,
             Scene = scene,
+            PlayerCount = GameManager.Instance.maxPlayers,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
         });
     }
@@ -43,6 +44,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void HostGame(Text roomCode)
     {
         StartGame(GameMode.Host, roomCode.text.ToString());
+        UIManager.instance.LoadingScreen();
     }
 
     public void JoinGame()
@@ -51,6 +53,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         if(!string.IsNullOrEmpty(roomCode))
         {
             StartGame(GameMode.Client, roomCode);
+            UIManager.instance.LoadingScreen();
         }
     }
 
@@ -93,13 +96,20 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (runner.IsServer)
         {
-            // Create a unique position for the player
-            Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.PlayerCount) * 3, 1, 0);
-            NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.Euler(0,0,0), player);
-            networkPlayerObject.name = runner.IsServer? "Player": "Enemy";
-            // Keep track of the player avatars for easy access
-            _spawnedCharacters.Add(player, networkPlayerObject);
-            Debug.Log(_spawnedCharacters.Count);
+            if (_spawnedCharacters.Count <= GameManager.Instance.maxPlayers - 1)
+            {
+                // Create a unique position for the player
+                Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.PlayerCount) * 3, 1, 0);
+                NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.Euler(0, 0, 0), player);
+                //networkPlayerObject.name = runner.IsServer? "Player": "Enemy";
+                // Keep track of the player avatars for easy access
+                _spawnedCharacters.Add(player, networkPlayerObject);
+                GameManager.Instance.AddPlayers(networkPlayerObject);
+            }
+        }
+        if (runner.SessionInfo.PlayerCount == GameManager.Instance.maxPlayers)
+        {
+            UIManager.instance.SceneLoaded();
         }
     }
 
@@ -107,12 +117,11 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (_spawnedCharacters.TryGetValue(player, out NetworkObject networkObject))
         {
+            Debug.Log($"Player {player.PlayerId} left!");
+
+            GameManager.Instance.RemovePlayer(networkObject);
             runner.Despawn(networkObject);
             _spawnedCharacters.Remove(player);
-        }
-        if(_spawnedCharacters.Count < 2)
-        {
-            Debug.Log("Game Over");
         }
     }
 

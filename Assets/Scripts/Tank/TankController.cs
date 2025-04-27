@@ -5,11 +5,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(NetworkTransform))]
 public class TankController : NetworkBehaviour
 {
     [Header("Tank Properties")]
-    public float tankSpeed = 15f;
-    public float tankRotationSpeed = 20f;
+    public float tankSpeed = 2f;
+    public float tankRotationSpeed = 2f;
     public float turretLagSpeed = 0.5f;
     private Vector3 finalTurretLookDir;
 
@@ -34,12 +35,12 @@ public class TankController : NetworkBehaviour
                 virtualCamera.GetComponent<CinemachineVirtualCamera>().Follow = transform;
             }
         }
-        rigidBody = GetComponent<Rigidbody>();     
+        //rigidBody = GetComponent<Rigidbody>();     
 
-        // Adjust center of mass to improve stability and prevent rolling
-        Vector3 centerOfMass = rigidBody.centerOfMass;
-        centerOfMass.y += centreOfGravityOffset;
-        rigidBody.centerOfMass = centerOfMass;
+        //// Adjust center of mass to improve stability and prevent rolling
+        //Vector3 centerOfMass = rigidBody.centerOfMass;
+        //centerOfMass.y += centreOfGravityOffset;
+        //rigidBody.centerOfMass = centerOfMass;
     }
 
     public override void FixedUpdateNetwork()
@@ -59,7 +60,7 @@ public class TankController : NetworkBehaviour
     void HandleMovement(NetworkInputData input)
     {
         ////move tank forward
-        //Vector3 wantedPosition = rigidBody.position + ( transform.forward * input.forward * tankSpeed * Runner.DeltaTime);
+        //Vector3 wantedPosition = rigidBody.position + (transform.forward * input.forward * tankSpeed * Runner.DeltaTime);
         //rigidBody.MovePosition(wantedPosition);
 
         //// tank rotation

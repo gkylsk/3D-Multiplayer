@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7109518251069606513}
   - component: {fileID: 8007147700844174469}
-  - component: {fileID: 2245120901984496447}
   m_Layer: 0
   m_Name: RedTank
   m_TagString: Player
@@ -49,29 +48,10 @@ MonoBehaviour:
   SortKey: 2558928957
   ObjectInterest: 1
   Flags: 262145
-  NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 2245120901984496447}
-  - {fileID: 951028747844490750}
-  - {fileID: 49843375659421805}
+  NestedObjects:
+  - {fileID: 6817358900606824432}
+  NetworkedBehaviours: []
   ForceRemoteRenderTimeframe: 0
---- !u!114 &2245120901984496447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6550583299035046039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _stateAuthorityChangeErrorCorrectionDelta: 0
-  SyncScale: 0
-  SyncParent: 0
-  _autoAOIOverride: 1
-  DisableSharedModeInterpolation: 0
 --- !u!1001 &3341290228332514580
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -152,6 +132,38 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7070139266790392322, guid: b7f4373fd88eb2d4faac0c3e7fd03470, type: 3}
+      propertyPath: m_Interpolate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7070139266790392322, guid: b7f4373fd88eb2d4faac0c3e7fd03470, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8125261249810932452, guid: b7f4373fd88eb2d4faac0c3e7fd03470, type: 3}
+      propertyPath: Flags
+      value: 262145
+      objectReference: {fileID: 0}
+    - target: {fileID: 8125261249810932452, guid: b7f4373fd88eb2d4faac0c3e7fd03470, type: 3}
+      propertyPath: SortKey
+      value: 2661439673
+      objectReference: {fileID: 0}
+    - target: {fileID: 8125261249810932452, guid: b7f4373fd88eb2d4faac0c3e7fd03470, type: 3}
+      propertyPath: NetworkedBehaviours.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8125261249810932452, guid: b7f4373fd88eb2d4faac0c3e7fd03470, type: 3}
+      propertyPath: NetworkedBehaviours.Array.data[0]
+      value: 
+      objectReference: {fileID: 951028747844490750}
+    - target: {fileID: 8125261249810932452, guid: b7f4373fd88eb2d4faac0c3e7fd03470, type: 3}
+      propertyPath: NetworkedBehaviours.Array.data[1]
+      value: 
+      objectReference: {fileID: 49843375659421805}
+    - target: {fileID: 8125261249810932452, guid: b7f4373fd88eb2d4faac0c3e7fd03470, type: 3}
+      propertyPath: NetworkedBehaviours.Array.data[2]
+      value: 
+      objectReference: {fileID: 6146834356431449833}
     - target: {fileID: 8526086232321272463, guid: b7f4373fd88eb2d4faac0c3e7fd03470, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -193,3 +205,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1736036649484000633, guid: b7f4373fd88eb2d4faac0c3e7fd03470, type: 3}
   m_PrefabInstance: {fileID: 3341290228332514580}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6146834356431449833 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8868525025112433661, guid: b7f4373fd88eb2d4faac0c3e7fd03470, type: 3}
+  m_PrefabInstance: {fileID: 3341290228332514580}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6817358900606824432 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8125261249810932452, guid: b7f4373fd88eb2d4faac0c3e7fd03470, type: 3}
+  m_PrefabInstance: {fileID: 3341290228332514580}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
