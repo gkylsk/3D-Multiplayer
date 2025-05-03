@@ -1,16 +1,23 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class BulletHandler : MonoBehaviour
+public class BulletHandler : NetworkBehaviour
 {
     [SerializeField] float launchSpeed = 75f;
     [SerializeField] GameObject bulletPrefab;
 
+    public TankBehaviour tankBehaviour;
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (HasStateAuthority == false)
+        {
+            return;
+        }
+
+        if (Input.GetMouseButtonDown(0))
         {
             SpawnBullet();
         }

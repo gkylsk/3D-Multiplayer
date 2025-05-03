@@ -3,11 +3,16 @@ using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(NetworkTransform))]
 public class TankController : NetworkBehaviour
 {
+    //[Networked] public string PlayerName { get; set; }
+
+    [SerializeField] private Text nameText;
+
     [Header("Tank Properties")]
     public float tankSpeed = 2f;
     public float tankRotationSpeed = 2f;
@@ -23,8 +28,6 @@ public class TankController : NetworkBehaviour
     public GameObject[] rightWheels;
     public float wheelRotationSpeed = 200.0f;
 
-    private Rigidbody rigidBody;
-
     public override void Spawned()
     {
         if (Object.HasInputAuthority)
@@ -35,29 +38,36 @@ public class TankController : NetworkBehaviour
                 virtualCamera.GetComponent<CinemachineVirtualCamera>().Follow = transform;
             }
         }
-        //rigidBody = GetComponent<Rigidbody>();     
-
-        //// Adjust center of mass to improve stability and prevent rolling
-        //Vector3 centerOfMass = rigidBody.centerOfMass;
-        //centerOfMass.y += centreOfGravityOffset;
-        //rigidBody.centerOfMass = centerOfMass;
     }
 
     public override void FixedUpdateNetwork()
     {
-        if (GetInput<NetworkInputData>(out var input))
+        float forward;
+        float rotation;
+        Vector3 reticlePosition;
+        Vector3 reticleNormal;
+
+        
+
+        forward = Input.GetAxis("Vertical"); // Forward/backward input
+        rotation = Input.GetAxis("Horizontal"); // Rotation input
+
+        HandleMovement(forward, rotation);
+        HandleWheelRotation(forward,rotation);
+
+        // Raycast for reticle
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if(HasInputAuthority)
-            {
-                HandleMovement(input);
-                HandleWheelRotation(input);
-                HandleTurret(input);
-                //HandleReticle(input);
-            }
+            reticlePosition = hit.point;
+            reticleNormal = hit.normal;
+            Debug.DrawRay(ray.origin, ray.direction, Color.red, 1f);
+            HandleTurret(reticlePosition);
+            //HandleReticle(reticlePostion);
         }
     }
-
-    void HandleMovement(NetworkInputData input)
+    
+    void HandleMovement(float forward, float rotation)
     {
         ////move tank forward
         //Vector3 wantedPosition = rigidBody.position + (transform.forward * input.forward * tankSpeed * Runner.DeltaTime);
@@ -68,49 +78,49 @@ public class TankController : NetworkBehaviour
         //rigidBody.MoveRotation(wantedRotation);
 
         // Move the tank
-        Vector3 forwardMovement = transform.forward * input.forward * tankSpeed * Runner.DeltaTime;
+        Vector3 forwardMovement = transform.forward * forward * tankSpeed * Runner.DeltaTime;
         transform.position += forwardMovement;
 
         // Rotate the tank
-        transform.Rotate(Vector3.up, input.rotation * tankRotationSpeed * Runner.DeltaTime);
+        transform.Rotate(Vector3.up, rotation * tankRotationSpeed * Runner.DeltaTime);
 
     }
 
-    void HandleWheelRotation(NetworkInputData input)
+    void HandleWheelRotation(float forward, float rotation)
     {
-        float wheelRotation = input.forward * wheelRotationSpeed * Runner.DeltaTime;
+        float wheelRotation = forward * wheelRotationSpeed * Runner.DeltaTime;
         foreach (GameObject wheel in leftWheels)
         {
             if (wheel != null)
             {
-                wheel.transform.Rotate(wheelRotation * input.rotation * wheelRotationSpeed * Runner.DeltaTime, 0, 0);
+                wheel.transform.Rotate(wheelRotation * rotation * wheelRotationSpeed * Runner.DeltaTime, 0, 0);
             }
         }
         foreach (GameObject wheel in rightWheels)
         {
             if (wheel != null)
             {
-                wheel.transform.Rotate(wheelRotation + input.rotation * wheelRotationSpeed * Runner.DeltaTime, 0, 0);
+                wheel.transform.Rotate(wheelRotation + rotation * wheelRotationSpeed * Runner.DeltaTime, 0, 0);
             }
         }
     }
 
-    void HandleTurret(NetworkInputData input)
+    void HandleTurret(Vector3 reticlePosition)
     {
         if(turretTransform)
         {
-            Vector3 turretLookDir = input.reticlePosition - turretTransform.position;
+            Vector3 turretLookDir = reticlePosition - turretTransform.position;
             turretLookDir.y = 0;
             finalTurretLookDir = Vector3.Lerp(finalTurretLookDir, turretLookDir, Runner.DeltaTime * turretLagSpeed);
             turretTransform.rotation = Quaternion.LookRotation(finalTurretLookDir);
         }
     }
 
-    void HandleReticle(NetworkInputData input)
+    void HandleReticle(Vector3 reticlePosition)
     {
         if(reticleTransform)
         {
-            reticleTransform.position = input.reticlePosition;
+            reticleTransform.position = reticlePosition;
         }
     }
 }

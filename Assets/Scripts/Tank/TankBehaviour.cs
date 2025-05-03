@@ -11,6 +11,7 @@ public class TankBehaviour : NetworkBehaviour
     #region Variables
     [Networked, OnChangedRender(nameof(OnHealthChanged))]
     public int HP { get; set; }
+    int damage = 10;
     public int Points = 0;
     int pointsToGetHealth = 30;
     int maxHealth = 100;
@@ -37,11 +38,6 @@ public class TankBehaviour : NetworkBehaviour
         HealthItem.OnHealthCollect -= AddHealth;
     }
 
-    void TakeDamage(int damage)
-    {
-        HP -= damage;
-    }
-
     public void AddScore(int score)
     {
         Points += score;
@@ -63,7 +59,7 @@ public class TankBehaviour : NetworkBehaviour
         healthBar.SetHealth(HP);
         if (HP == 0)
         {
-            gameManager.RemovePlayer(Object);
+            //gameManager.RemovePlayer(Object);
             Runner.Despawn(Object);
             if(HasInputAuthority)
             {
@@ -71,11 +67,20 @@ public class TankBehaviour : NetworkBehaviour
             }
         }
     }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void DealDamageRpc(int damage)
+    {
+        // The code inside here will run on the client which owns this object (has state and input authority).
+        Debug.Log("Received DealDamageRpc on StateAuthority, modifying Networked variable");
+        HP -= damage;
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.CompareTag("Bullet"))
         {
-            TakeDamage(10);
+            Destroy(collision.gameObject);
+            DealDamageRpc(damage);
         }
     }
 
