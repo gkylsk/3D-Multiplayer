@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1553589966680328112}
   - component: {fileID: 2931816947636199256}
   - component: {fileID: 5266473360277685504}
-  - component: {fileID: 2976047561468652009}
+  - component: {fileID: 7539296125234086807}
   m_Layer: 0
   m_Name: "\u0421TF_Missile_Red"
   m_TagString: Bullet
@@ -136,7 +136,7 @@ CapsuleCollider:
   m_Height: 0.30616736
   m_Direction: 2
   m_Center: {x: 0, y: -0.000000018626451, z: 0.13408315}
---- !u!114 &2976047561468652009
+--- !u!114 &7539296125234086807
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,6 +145,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7473455360741684967}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f79144dcc86cd9a478fca9bc6ee9d05a, type: 3}
+  m_Script: {fileID: 11500000, guid: ad7e3be31d024574e9c50be8a0636a86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _particle: {fileID: 19821056, guid: 079954accd64b32419ec069129c81273, type: 3}

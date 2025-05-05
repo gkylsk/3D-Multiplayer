@@ -519,7 +519,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _HP: 0
-  Points: 0
   healthBar: {fileID: 947567377859163312}
 --- !u!114 &4649663923446624104
 MonoBehaviour:
@@ -1004,7 +1003,7 @@ Transform:
   m_GameObject: {fileID: 7033732426067147206}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.92}
+  m_LocalPosition: {x: 0, y: 0, z: 1.157}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

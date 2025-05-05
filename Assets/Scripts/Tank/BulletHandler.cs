@@ -19,6 +19,7 @@ public class BulletHandler : NetworkBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            SoundManager.Play("Shoot");
             SpawnBullet();
         }
     }

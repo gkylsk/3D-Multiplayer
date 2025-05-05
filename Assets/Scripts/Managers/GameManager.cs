@@ -18,6 +18,7 @@ public class GameManager : NetworkBehaviour
     public List<string> players = new List<string>();
     public List<string> eliminatedPlayer = new List<string>();
 
+    public int Points = 0;
     public int maxPlayers = 6;
     public bool gameStarted = false;
     bool gameEnded = false;
@@ -74,10 +75,10 @@ public class GameManager : NetworkBehaviour
         return playerName;
     }
 
-    public void GameWon()
+    public void GameOver()
     {
+        SoundManager.Play("GameEnd");
         uiManager.DisplayLeaderboard();
-        uiManager.VictoryScreen();
     }
 
     public void RegisterPlayer(PlayerName player)
@@ -107,7 +108,7 @@ public class GameManager : NetworkBehaviour
                 }
             }
             gameEnded = true;
-            GameWon();
+            GameOver();
         }
     }
 

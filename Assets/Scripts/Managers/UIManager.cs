@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Screens")]
     
-    [SerializeField] GameObject _loadingScreen;
+    [SerializeField] GameObject _mainMenuBG;
     [SerializeField] GameObject _victoryScreen;
     [SerializeField] GameObject _loseScreen;
     [SerializeField] GameObject _leaderBoard;
@@ -68,16 +68,6 @@ public class UIManager : MonoBehaviour
         coinsText.text = "Coins:" + points.ToString();
     }
 
-    public void VictoryScreen()
-    {
-        _victoryScreen.SetActive(true);
-    }
-
-    public void LoseScreen()
-    {
-        _loseScreen.SetActive(true);
-    }
-
     public void DisplayLeaderboard()
     {
         _leaderBoard.SetActive(true);
@@ -102,7 +92,7 @@ public class UIManager : MonoBehaviour
    
     public void SceneLoaded()
     {
-        _loadingScreen.SetActive(false);
+        _mainMenuBG.SetActive(false);
         _mainmenu.SetActive(true);
     }
 }
