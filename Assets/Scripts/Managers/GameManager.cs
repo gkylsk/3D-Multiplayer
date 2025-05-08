@@ -18,8 +18,7 @@ public class GameManager : NetworkBehaviour
     public List<string> players = new List<string>();
     public List<string> eliminatedPlayer = new List<string>();
 
-    public int Points = 0;
-    public int maxPlayers = 6;
+    public int minPlayers = 2;
     public bool gameStarted = false;
     bool gameEnded = false;
     private void Awake()
@@ -49,7 +48,7 @@ public class GameManager : NetworkBehaviour
         {
             RegisterPlayer(player[i]);
         }
-        if (AllPlayers.Count == maxPlayers)
+        if (AllPlayers.Count == minPlayers)
         {
             gameStarted = true;
         }

@@ -519,6 +519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _HP: 0
+  Points: 0
   healthBar: {fileID: 947567377859163312}
 --- !u!114 &4649663923446624104
 MonoBehaviour:
@@ -606,6 +607,7 @@ MonoBehaviour:
   - {fileID: 2552448456434833642}
   - {fileID: 3382117056872209785}
   - {fileID: 4649663923446624104}
+  - {fileID: 8022675250606375923}
   - {fileID: 8868525025112433661}
   - {fileID: 1941296897076837231}
   ForceRemoteRenderTimeframe: 0
@@ -1300,7 +1302,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: ac169acbe5d541946bd34bf4068d1802, type: 3}
     m_FontSize: 229
     m_FontStyle: 0
     m_BestFit: 0

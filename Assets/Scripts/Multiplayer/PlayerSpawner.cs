@@ -10,11 +10,6 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
     [SerializeField] float spawnRangeX = 5f;
     public void PlayerJoined(PlayerRef player)
     {
-        if(Runner.ActivePlayers.Count() > GameManager.Instance.maxPlayers)
-        {
-            Debug.Log("True");
-            return;
-        }
         float randomPosX = Random.Range(-spawnRangeX, spawnRangeX);
         if (player == Runner.LocalPlayer)
         {

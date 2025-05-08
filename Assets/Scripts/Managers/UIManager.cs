@@ -11,18 +11,18 @@ public class UIManager : MonoBehaviour
     GameManager gameManager;
 
     [SerializeField] Text coinsText;
+
     [Header("Main Menu")]
     [SerializeField] GameObject _mainmenu;
     [SerializeField] Text _playerName;
-    [SerializeField] GameObject _setPlayerName;   
+    [SerializeField] GameObject _setPlayerName;
+    [SerializeField] GameObject _settings;
 
     [Header("Screens")]
-    
     [SerializeField] GameObject _mainMenuBG;
     [SerializeField] GameObject _victoryScreen;
     [SerializeField] GameObject _loseScreen;
     [SerializeField] GameObject _leaderBoard;
-    [SerializeField] GameObject _roomFilled;
 
     [Header("Player Rank")]
     [SerializeField] private Transform rankContainer;
@@ -63,6 +63,19 @@ public class UIManager : MonoBehaviour
     {
         _playerName.text = gameManager.playerName;
     }
+
+    public void ToggleSettings()
+    {
+        if(_settings.activeSelf)
+        {
+            _settings.SetActive(false);
+        }
+        else
+        {
+            _settings.SetActive(true);
+        }
+    }
+
     public void UpdateCoinText(int points)
     {
         coinsText.text = "Coins:" + points.ToString();

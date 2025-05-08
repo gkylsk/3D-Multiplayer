@@ -12,7 +12,8 @@ public class TankBehaviour : NetworkBehaviour
     [Networked, OnChangedRender(nameof(OnHealthChanged))]
     public int HP { get; set; }
     int damage = 10;
-    
+
+    public int Points = 0;
     int pointsToGetHealth = 30;
     int maxHealth = 100;
     [SerializeField] HealthBar healthBar;
@@ -40,17 +41,17 @@ public class TankBehaviour : NetworkBehaviour
 
     public void AddScore(int score)
     {
-        gameManager.Points += score;
-        uiManager.UpdateCoinText(gameManager.Points);
+        Points += score;
+        uiManager.UpdateCoinText(Points);
         SoundManager.Play("Coin");
     }
 
     void AddHealth(int health)
     {
-        if(HP < maxHealth && gameManager.Points >= pointsToGetHealth)
+        if (HP < maxHealth && Points >= pointsToGetHealth)
         {
-            gameManager.Points -= pointsToGetHealth;
-            uiManager.UpdateCoinText(gameManager.Points);
+            Points -= pointsToGetHealth;
+            uiManager.UpdateCoinText(Points);
             HP += health;
             SoundManager.Play("HealthItem");
         }
