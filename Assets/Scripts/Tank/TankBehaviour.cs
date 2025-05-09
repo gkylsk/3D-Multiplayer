@@ -5,7 +5,6 @@ public class TankBehaviour : NetworkBehaviour
 {
     #region Managers
     UIManager uiManager;
-    GameManager gameManager;
     #endregion
 
     #region Variables
@@ -22,7 +21,6 @@ public class TankBehaviour : NetworkBehaviour
     public override void Spawned()
     {
         uiManager = UIManager.instance;
-        gameManager = GameManager.Instance;
 
         HP = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
@@ -48,6 +46,7 @@ public class TankBehaviour : NetworkBehaviour
 
     void AddHealth(int health)
     {
+        //increase hp if the points required is acquired and hp is less than max
         if (HP < maxHealth && Points >= pointsToGetHealth)
         {
             Points -= pointsToGetHealth;
@@ -60,6 +59,8 @@ public class TankBehaviour : NetworkBehaviour
     private void OnHealthChanged()
     {
         healthBar.SetHealth(HP);
+
+        //if hp reaches 0 player loses
         if (HP == 0)
         {
             Runner.Despawn(Object);
@@ -70,13 +71,13 @@ public class TankBehaviour : NetworkBehaviour
     public void DealDamageRpc(int damage)
     {
         // The code inside here will run on the client which owns this object (has state and input authority).
-        Debug.Log("Received DealDamageRpc on StateAuthority, modifying Networked variable");
         HP -= damage;
     }
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.CompareTag("Bullet"))
         {
+            //reduce hp if bullet hits
             DealDamageRpc(damage);
         }
     }

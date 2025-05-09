@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using WebSocketSharp;
 
@@ -10,6 +7,7 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
     GameManager gameManager;
 
+    [Header("In Game")]
     [SerializeField] Text coinsText;
 
     [Header("Main Menu")]
@@ -27,6 +25,7 @@ public class UIManager : MonoBehaviour
     [Header("Player Rank")]
     [SerializeField] private Transform rankContainer;
     [SerializeField]private Transform rankTemplate;
+
     private void Awake()
     {
         if(instance == null)
@@ -87,15 +86,22 @@ public class UIManager : MonoBehaviour
 
         float templateHeight = 50f;
         int j = 0;
+
+        //hide the template
         rankTemplate.gameObject.SetActive(false);
+
+        //set rank in reverse cause list contains name in order of player lost or exited
         for (int i = gameManager.eliminatedPlayer.Count - 1; i >= 0; i--)
         {
+            //instantiate the rank using template
             Transform rankTransform = Instantiate(rankTemplate, rankContainer);
             RectTransform rankRectTransform = rankTransform.GetComponent<RectTransform>();
 
+            //set the spacing adjustments
             rankRectTransform.anchoredPosition = new Vector2(0, -templateHeight * j);
             rankTransform.gameObject.SetActive(true);
 
+            //set the rank number and player name for that rank
             rankTransform.Find("Rank").GetComponent<Text>().text = (j + 1).ToString();
             rankTransform.Find("PlayerName").GetComponent<Text>().text = gameManager.eliminatedPlayer[i];
 

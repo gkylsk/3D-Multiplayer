@@ -1,16 +1,14 @@
 using Fusion;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
     UIManager uiManager;
+    SoundManager soundManager;
 
     public string playerName;
 
@@ -32,26 +30,32 @@ public class GameManager : NetworkBehaviour
         {
             Destroy(gameObject);
         }
-        LoadPlayerData();
     }
 
     private void Start()
     {
         uiManager = UIManager.instance;
+        soundManager = SoundManager.Instance;
+
+        LoadPlayerData();
     }
 
     private void Update()
     {
+        //Register the available players
         PlayerName[] player = GameObject.FindObjectsOfType<PlayerName>();
         
         for (int i = 0; i < player.Length; i++)
         {
             RegisterPlayer(player[i]);
         }
+
         if (AllPlayers.Count == minPlayers)
         {
             gameStarted = true;
         }
+
+        //if any player exits remove the player
         for (int i = 0; i < AllPlayers.Count; i++)
         {
             if (AllPlayers[i] == null)
@@ -60,8 +64,10 @@ public class GameManager : NetworkBehaviour
                 AllPlayers.RemoveAt(i);
             }
         }
+
         CheckWinCondition();
     }
+
     public void ReadName(Text name)
     {
         playerName = name.text;
@@ -85,6 +91,7 @@ public class GameManager : NetworkBehaviour
         if (!AllPlayers.Contains(player))
         {
             string name = player.playerName.ToString();
+            //check if the player name is not null and if player already exist
             if(!string.IsNullOrEmpty(name) && !players.Contains(name))
             {
                 AllPlayers.Add(player);
@@ -97,6 +104,7 @@ public class GameManager : NetworkBehaviour
     {
         if(gameEnded) return;
 
+        //if last remaining player then game is over
         if (AllPlayers.Count == 1 && gameStarted)
         {
             for (int i = 0; i < players.Count; i++)
@@ -125,8 +133,8 @@ public class GameManager : NetworkBehaviour
     public void SavePlayerData()
     {
         SaveData data = new SaveData();
-        //data.music = SoundManager.Instance.music;
-        //data.volume = SoundManager.Instance.volume;
+        data.music = soundManager.music;
+        data.volume = soundManager.volume;
         data.playerName = playerName;
 
         string json = JsonUtility.ToJson(data);
@@ -140,8 +148,8 @@ public class GameManager : NetworkBehaviour
         {
             string json = File.ReadAllText(path);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
-            //SoundManager.Instance.music = data.music;
-            //SoundManager.Instance.volume = data.volume;
+            soundManager.music = data.music;
+            soundManager.volume = data.volume;
             playerName = data.playerName;
         }
     }

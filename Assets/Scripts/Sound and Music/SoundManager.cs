@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
+
+    GameManager gameManager;
 
     private static AudioSource audioSource;
     private static SoundEffectLibrary soundEffectLibrary;
@@ -19,6 +19,7 @@ public class SoundManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             audioSource = GetComponent<AudioSource>();
             soundEffectLibrary = GetComponent<SoundEffectLibrary>();
+            gameManager = GameManager.Instance;
         }
         else
         {
@@ -37,16 +38,19 @@ public class SoundManager : MonoBehaviour
     public void SetVolume()
     {
         audioSource.volume = volume;
+        gameManager.SavePlayerData();
     }
 
     public void PlayMusic()
     {
         audioSource.Play();
         music = true;
+        gameManager.SavePlayerData();
     }
     public void StopMusic()
     {
         audioSource.Stop();
         music = false;
+        gameManager.SavePlayerData();
     }
 }

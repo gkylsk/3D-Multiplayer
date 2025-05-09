@@ -1,7 +1,4 @@
 using Fusion;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BulletHandler : NetworkBehaviour
@@ -18,6 +15,7 @@ public class BulletHandler : NetworkBehaviour
             return;
         }
 
+        //shoot bullet if mouse left button pressed
         if (Input.GetMouseButtonDown(0))
         {
             SoundManager.Play("Shoot");
@@ -39,6 +37,7 @@ public class BulletHandler : NetworkBehaviour
         bullet.GetComponent<Rigidbody>().velocity = velocity;
     }
 
+    //to make the particle effect networked
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     private void RPC_PlayParticleEffect()
     {

@@ -1,7 +1,5 @@
 using Cinemachine;
 using Fusion;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,8 +7,6 @@ using UnityEngine.UI;
 [RequireComponent(typeof(NetworkTransform))]
 public class TankController : NetworkBehaviour
 {
-    //[Networked] public string PlayerName { get; set; }
-
     [SerializeField] private Text nameText;
 
     [Header("Tank Properties")]
@@ -30,6 +26,7 @@ public class TankController : NetworkBehaviour
 
     public override void Spawned()
     {
+        //set up the virtual camera for the repective player
         if (Object.HasInputAuthority)
         {
             GameObject virtualCamera = GameObject.Find("Virtual Camera");
@@ -42,16 +39,17 @@ public class TankController : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        //tank and turret movement variables
         float forward;
         float rotation;
         Vector3 reticlePosition;
         Vector3 reticleNormal;
 
-        
-
+        //tank movement input
         forward = Input.GetAxis("Vertical"); // Forward/backward input
         rotation = Input.GetAxis("Horizontal"); // Rotation input
 
+        //tank movement and wheel rotation
         HandleMovement(forward, rotation);
         HandleWheelRotation(forward,rotation);
 
@@ -69,21 +67,12 @@ public class TankController : NetworkBehaviour
     
     void HandleMovement(float forward, float rotation)
     {
-        ////move tank forward
-        //Vector3 wantedPosition = rigidBody.position + (transform.forward * input.forward * tankSpeed * Runner.DeltaTime);
-        //rigidBody.MovePosition(wantedPosition);
-
-        //// tank rotation
-        //Quaternion wantedRotation = rigidBody.rotation * Quaternion.Euler(Vector3.up * (tankRotationSpeed * input.rotation * Runner.DeltaTime));
-        //rigidBody.MoveRotation(wantedRotation);
-
         // Move the tank
         Vector3 forwardMovement = transform.forward * forward * tankSpeed * Runner.DeltaTime;
         transform.position += forwardMovement;
 
         // Rotate the tank
         transform.Rotate(Vector3.up, rotation * tankRotationSpeed * Runner.DeltaTime);
-
     }
 
     void HandleWheelRotation(float forward, float rotation)
