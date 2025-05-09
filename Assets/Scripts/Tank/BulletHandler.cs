@@ -8,6 +8,7 @@ public class BulletHandler : NetworkBehaviour
 {
     [SerializeField] float launchSpeed = 75f;
     [SerializeField] GameObject bulletPrefab;
+    [SerializeField] ParticleSystem _particle;
 
     public TankBehaviour tankBehaviour;
     void Update()
@@ -21,13 +22,14 @@ public class BulletHandler : NetworkBehaviour
         {
             SoundManager.Play("Shoot");
             SpawnBullet();
+            RPC_PlayParticleEffect();
         }
     }
 
     void SpawnBullet()
     {
         //Instantiate bullet
-        GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
+        NetworkObject bullet = Runner.Spawn(bulletPrefab, transform.position, transform.rotation);
 
         //direction in which bullet is fired 
         Vector3 localXDirection = transform.TransformDirection(Vector3.forward);
@@ -36,4 +38,11 @@ public class BulletHandler : NetworkBehaviour
 
         bullet.GetComponent<Rigidbody>().velocity = velocity;
     }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void RPC_PlayParticleEffect()
+    {
+        _particle.Play();
+    }
+
 }

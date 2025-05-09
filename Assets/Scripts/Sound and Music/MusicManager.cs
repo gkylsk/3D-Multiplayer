@@ -51,7 +51,7 @@ public class MusicManager : MonoBehaviour
     public void StopMusic()
     {
         soundManager.StopMusic();
-        musicOn.SetActive(false);
-        musicOff.SetActive(true);
+        musicOn.SetActive(true);
+        musicOff.SetActive(false);
     }
 }

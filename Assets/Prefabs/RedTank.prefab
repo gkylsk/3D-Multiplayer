@@ -140,6 +140,10 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7308029201973672233, guid: b7f4373fd88eb2d4faac0c3e7fd03470, type: 3}
+      propertyPath: SortKey
+      value: 1650157979
+      objectReference: {fileID: 0}
     - target: {fileID: 8125261249810932452, guid: b7f4373fd88eb2d4faac0c3e7fd03470, type: 3}
       propertyPath: Flags
       value: 262145
@@ -147,6 +151,10 @@ PrefabInstance:
     - target: {fileID: 8125261249810932452, guid: b7f4373fd88eb2d4faac0c3e7fd03470, type: 3}
       propertyPath: SortKey
       value: 2661439673
+      objectReference: {fileID: 0}
+    - target: {fileID: 8125261249810932452, guid: b7f4373fd88eb2d4faac0c3e7fd03470, type: 3}
+      propertyPath: NestedObjects.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8125261249810932452, guid: b7f4373fd88eb2d4faac0c3e7fd03470, type: 3}
       propertyPath: NetworkedBehaviours.Array.size

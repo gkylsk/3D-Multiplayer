@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject _settings;
 
     [Header("Screens")]
-    [SerializeField] GameObject _mainMenuBG;
+    [SerializeField] GameObject _inGame;
     [SerializeField] GameObject _victoryScreen;
     [SerializeField] GameObject _loseScreen;
     [SerializeField] GameObject _leaderBoard;
@@ -105,7 +105,7 @@ public class UIManager : MonoBehaviour
    
     public void SceneLoaded()
     {
-        _mainMenuBG.SetActive(false);
-        _mainmenu.SetActive(true);
+        _mainmenu.SetActive(false);
+        _inGame.SetActive(true) ;
     }
 }

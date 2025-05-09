@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2931816947636199256}
   - component: {fileID: 5266473360277685504}
   - component: {fileID: 7539296125234086807}
+  - component: {fileID: 6712195877528583035}
   m_Layer: 0
   m_Name: "\u0421TF_Missile_Red"
   m_TagString: Bullet
@@ -148,4 +149,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad7e3be31d024574e9c50be8a0636a86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _particle: {fileID: 19821056, guid: 079954accd64b32419ec069129c81273, type: 3}
+  _particle: {fileID: 6232283449214438794, guid: 5eea29ea22dd9e54f95a08a96fa6dd52, type: 3}
+--- !u!114 &6712195877528583035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7473455360741684967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 252008005
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 7539296125234086807}
+  ForceRemoteRenderTimeframe: 0

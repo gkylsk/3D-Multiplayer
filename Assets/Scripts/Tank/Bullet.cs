@@ -5,17 +5,11 @@ using UnityEngine;
 
 public class Bullet : NetworkBehaviour
 {
-    [SerializeField] ParticleSystem _particle;
-
     private void OnCollisionEnter(Collision collision)
     {
-        ParticleSystem ps = Instantiate(_particle, transform.position, Quaternion.identity);
-        ps.Play();
-        StartCoroutine(WaitForParticle());
-    }
-    IEnumerator WaitForParticle()
-    {
-        yield return new WaitForSeconds(1f);
-        Destroy(gameObject);
+        if(collision.gameObject.CompareTag("Player") && collision.gameObject.CompareTag("Ground"))
+        {
+            Destroy(gameObject);
+        }
     }
 }

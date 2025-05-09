@@ -112,7 +112,7 @@ public class TankController : NetworkBehaviour
             Vector3 turretLookDir = reticlePosition - turretTransform.position;
             turretLookDir.y = 0;
             finalTurretLookDir = Vector3.Lerp(finalTurretLookDir, turretLookDir, Runner.DeltaTime * turretLagSpeed);
-            turretTransform.rotation = Quaternion.LookRotation(finalTurretLookDir);
+            Rpc_SetTurretRotation(Quaternion.LookRotation(finalTurretLookDir));
         }
     }
 
@@ -123,4 +123,11 @@ public class TankController : NetworkBehaviour
             reticleTransform.position = reticlePosition;
         }
     }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    private void Rpc_SetTurretRotation(Quaternion rotation)
+    {
+        turretTransform.rotation = rotation;
+    }
+
 }
